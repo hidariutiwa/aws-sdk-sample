@@ -25,6 +25,7 @@ const fileStream = fs.createReadStream(file);
 fileStream.on('error', (err) => {
     console.log(err, err.stack);
 });
+const path = require('path');
 uploadParams.Body = fileStream;
 uploadParams.Key = path.basename(file);
 
