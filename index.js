@@ -3,31 +3,21 @@ aws.config.update({region: 'ap-northeast-1'});
 
 const s3 = new aws.S3();
 
-/* s3.listBuckets((err, data) => {
-    if (err) {
-        console.log(err, err.stack);
-    }
-    else if(data) {
-        console.log(data.Buckets);
-    }
-}); */
-
 const bucketName = 'aoi-wiki-bucket';
-var file = './kimura_test.txt';
-const uploadParams = {
-    Bucket: bucketName,
-    Key: '',
-    Body: ''
-};
 
+var file = './kimura_test.txt';
 const fs = require('fs');
 const fileStream = fs.createReadStream(file);
 fileStream.on('error', (err) => {
     console.log(err, err.stack);
 });
+
 const path = require('path');
-uploadParams.Body = fileStream;
-uploadParams.Key = path.basename(file);
+const uploadParams = {
+    Bucket: bucketName,
+    Key: path.basename(file),
+    Body: fileStream
+};
 
 s3.upload(uploadParams, (err, data) => {
     if (err) {
